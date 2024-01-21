@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Attendance System</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      color: #fff;
+      background-color: #3498db;
+      padding: 20px;
+      margin: 0;
+    }
+
+    table {
+      margin: 0 auto;
+      border-collapse: collapse;
+      width: 80%;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 15px;
+      text-align: center;
+    }
+
+    .present-button {
+      background-color: #e67e22;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .absent-button {
+      background-color: #27ae60;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .present {
+      background-color: #2ecc71;
+      color: #fff;
+    }
+
+    .absent {
+      background-color: #f1c40f;
+      color: #fff;
+    }
+
+    .button {
+      width: 100px;
+      height: 30px;
+      cursor: pointer;
+    }
+
+    #result {
+      margin: 20px auto;
+      width: 80%;
+      border: 1px solid #ddd;
+      padding: 10px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <h1>Attendance System</h1>
+  <table id="attendance">
+    <tr>
+      <th>Roll No</th>
+      <th>Present</th>
+      <th>Absent</th>
+    </tr>
+    <!-- Generate 60 rows of data with buttons -->
+    <script>
+      // Get the table element
+      let table = document.getElementById("attendance");
+
+      // Loop from 1 to 60
+      for (let i = 1; i <= 60; i++) {
+        // Create a new row element
+        let row = document.createElement("tr");
+
+        // Create a new cell element for the roll number
+        let cell1 = document.createElement("td");
+        // Set the text content to the roll number
+        cell1.textContent = i;
+        // Append the cell to the row
+        row.appendChild(cell1);
+
+        // Create a new cell element for the present button
+        let cell2 = document.createElement("td");
+        // Create a new button element
+        let button2 = document.createElement("button");
+        // Set the class name to "button present-button"
+        button2.className = "button present-button";
+        // Set the text content to "Present"
+        button2.textContent = "Present";
+        // Add an event listener to the button
+        button2.addEventListener("click", function() {
+          // Toggle the class name of the row to "present"
+          row.classList.toggle("present");
+        });
+        // Append the button to the cell
+        cell2.appendChild(button2);
+        // Append the cell to the row
+        row.appendChild(cell2);
+
+        // Create a new cell element for the absent button
+        let cell3 = document.createElement("td");
+        // Create a new button element
+        let button3 = document.createElement("button");
+        // Set the class name to "button absent-button"
+        button3.className = "button absent-button";
+        // Set the text content to "Absent"
+        button3.textContent = "Absent";
+        // Add an event listener to the button
+        button3.addEventListener("click", function() {
+          // Toggle the class name of the row to "absent"
+          row.classList.toggle("absent");
+        });
+        // Append the button to the cell
+        cell3.appendChild(button3);
+        // Append the cell to the row
+        row.appendChild(cell3);
+
+        // Append the row to the table
+        table.appendChild(row);
+      }
+    </script>
+  </table>
+  <div id="result">
+    <p id="total-present">Total Present: 0</p>
+    <p id="total-absent">Total Absent: 0</p>
+    <p id="absent-list">Absent Roll No: </p>
+  </div>
+  <script>
+    // Get the result element
+    let result = document.getElementById("result");
+
+    // Get the total present element
+    let totalPresent = document.getElementById("total-present");
+
+    // Get the total absent element
+    let totalAbsent = document.getElementById("total-absent");
+
+    // Get the absent list element
+    let absentList = document.getElementById("absent-list");
+
+    // Create a function to update the result
+    function updateResult() {
+      // Initialize the present and absent counters
+      let present = 0;
+      let absent = 0;
+
+      // Initialize an empty array for the absent roll numbers
+      let absentRollNo = [];
+
+      // Loop through the table rows
+      for (let i = 1; i < table.rows.length; i++) {
+        // Get the current row
+        let row = table.rows[i];
+
+        // Check if the row has the class "present"
+        if (row.classList.contains("present")) {
+          // Increment the present counter
+          present++;
+        } else if (row.classList.contains("absent")) {
+          // Increment the absent counter
+          absent++;
+          // Get the roll number from the first cell
+          let rollNo = row.cells[0].textContent;
+          // Push the roll number to the absent roll number array
+          absentRollNo.push(rollNo);
+        }
+      }
+
+      // Update the total present element with the present counter
+      totalPresent.textContent = "Total Present: " + present;
+
+      // Update the total absent element with the absent counter
+      totalAbsent.textContent = "Total Absent: " + absent;
+
+      // Update the absent list element with the absent roll number array
+      absentList.textContent = "Absent Roll No: " + absentRollNo.join(", ");
+    }
+
+    // Add an event listener to the table
+    table.addEventListener("click", function() {
+      // Call the update result function
+      updateResult();
+    });
+  </script>
+</body>
+</html>
